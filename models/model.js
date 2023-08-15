@@ -21,6 +21,4 @@ exports.selectArticles = (article_id) => {
         return rows[0]
     })
 }
-}
-}
 

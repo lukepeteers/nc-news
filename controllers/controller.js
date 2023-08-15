@@ -1,4 +1,4 @@
-const {selectTopics, selectServerDocs, selectArticles} = require('../models/model')
+const {selectTopics, selectArticles} = require('../models/model')
 const endpoints = require('../endpoints.json')
 
 
