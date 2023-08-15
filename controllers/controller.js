@@ -1,6 +1,7 @@
 const {selectTopics, selectServerDocs, selectArticles} = require('../models/model')
 const endpoints = require('../endpoints.json')
 
+
 exports.getTopics = (request, response) => {
     selectTopics().then((topics) => {
         response.status(200).send(topics)
