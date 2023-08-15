@@ -6,8 +6,6 @@ const {getTopics, getServerDocs} = require('./controllers/controller')
 app.get('/api/topics', getTopics)
 app.get('/api', getServerDocs)
 
-const {getTopics} = require('./controllers/controller')
-
 app.get('/api/topics', getTopics)
 
 

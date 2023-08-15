@@ -10,5 +10,3 @@ exports.selectTopics = () => {
 
 }
 
-}
-

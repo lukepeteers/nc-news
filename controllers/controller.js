@@ -2,8 +2,6 @@
 const {selectTopics, selectServerDocs} = require('../models/model')
 const endpoints = require('../endpoints.json')
 
-const {selectTopics} = require('../models/model')
-
 
 
 exports.getTopics = (request, response) => {
