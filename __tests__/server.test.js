@@ -35,20 +35,26 @@ describe('GET', () => {
         });   
     });
     describe('/api/articles/:article_id', () => {
-        test('200 - responds with an object with the correct properties', () => {
+        test('200 - responds with an object with a key of "article" and value as the desired object withcorrect properties', () => {
             
             return request(app)
             .get('/api/articles/2')
             .expect(200)
             .then(({body}) => {
-                expect(body).toHaveProperty('article_id', expect.any(Number))
-                expect(body).toHaveProperty('title', expect.any(String))
-                expect(body).toHaveProperty('topic', expect.any(String))
-                expect(body).toHaveProperty('author', expect.any(String))
-                expect(body).toHaveProperty('body', expect.any(String))
-                expect(body).toHaveProperty('created_at', expect.any(String))
-                expect(body).toHaveProperty('votes', expect.any(Number))
-                expect(body).toHaveProperty('article_img_url', expect.any(String))
+                for(const key in body) {
+                    const value = body[key]
+                    expect(key).toBe('article')
+                    expect(value).toHaveProperty('article_id', expect.any(Number))
+                    expect(value).toHaveProperty('title', expect.any(String))
+                    expect(value).toHaveProperty('topic', expect.any(String))
+                    expect(value).toHaveProperty('author', expect.any(String))
+                    expect(value).toHaveProperty('body', expect.any(String))
+                    expect(value).toHaveProperty('created_at', expect.any(String))
+                    expect(value).toHaveProperty('votes', expect.any(Number))
+                    expect(value).toHaveProperty('article_img_url', expect.any(String))
+
+
+                }
             })
         });
 
@@ -70,7 +76,7 @@ describe('GET', () => {
             .expect(400)
             .then(({body}) => {
                 const {msg} = body
-                expect(msg).toBe('Invalid input')
+                expect(msg).toBe('Invalid Input')
             })
         });
     });
