@@ -1,10 +1,21 @@
 {
   "GET /api": {
-    "description": "serves up a json representation of all the available endpoints of the api"
+    "description": "serves up a json representation of all the available endpoints of the api" ,
+    "queries": [],
+    "format": "object",
+    "example": {"GET /api/topics": {
+      "description": "serves an array of all topics",
+      "queries": [],
+      "exampleResponse": {
+        "topics": [{ "slug": "football", "description": "Footie!" }]
+      }
+    }} 
+
   },
   "GET /api/topics": {
     "description": "serves an array of all topics",
     "queries": [],
+    "format": "array",
     "exampleResponse": {
       "topics": [{ "slug": "football", "description": "Footie!" }]
     }
@@ -22,5 +33,7 @@
       "article_img_url":
         "https://images.pexels.com/photos/158651/news-newsletter-newspaper-information-158651.jpeg?w=700&h=700"
     }
+
   }
+  
 }

@@ -1,11 +1,13 @@
 const connection = require('../db/connection')
 
+
 exports.selectTopics = () => {
     return connection
     .query(`SELECT * FROM topics`)
     .then((topics) => {
         return topics
     })
+
 }
 
 exports.selectArticles = (article_id) => {
@@ -18,3 +20,7 @@ exports.selectArticles = (article_id) => {
         return rows[0]
     })
 }
+}
+}
+
+

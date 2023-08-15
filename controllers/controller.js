@@ -1,5 +1,5 @@
-const {selectTopics, selectArticles} = require('../models/model')
-
+const {selectTopics, selectServerDocs, selectArticles} = require('../models/model')
+const endpoints = require('../endpoints.json')
 
 exports.getTopics = (request, response) => {
     selectTopics().then((topics) => {
@@ -14,4 +14,8 @@ exports.getArticles = (request, response, next) => {
         response.status(200).send(articles)
     })
     .catch(next);
+}
+
+exports.getServerDocs = (request, response) => {
+    response.status(200).send(endpoints)
 }
