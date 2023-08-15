@@ -7,4 +7,8 @@ exports.selectTopics = () => {
     .then((topics) => {
         return topics
     })
+
 }
+
+}
+
