@@ -13,11 +13,10 @@ beforeEach(() => {
 
 afterAll(() => connection.end());
 
-
 describe('GET', () => {
     test('404 - response with error message when given a url that doesnt exist on server', () => {
         return request(app)
-        .get('/api/pokeomon-news')
+        .get('/pokeomon-news')
         .expect(404)
     });
     describe('/api/topics', () => {
@@ -69,7 +68,7 @@ describe('GET', () => {
             })
         });
 
-        test('400 - repsonds with "Invalid Id - please enter a number" when id entered is not a number', () => {
+        test('400 - responds with "Invalid Input" when id entered is not a number', () => {
             
             return request(app)
             .get('/api/articles/nazgûl')
@@ -93,4 +92,48 @@ describe('GET', () => {
         });
     });
 
-});
+    describe('/api/articles', () => {
+        test('200 - an articles array of article objects with the correct properties', () => {
+            
+            return request(app)
+            .get('/api/articles')
+            .expect(200)
+            .then(({body}) => {
+                body.forEach((article) => {  
+                    expect(article).toHaveProperty('author', expect.any(String))
+                    expect(article).toHaveProperty('title', expect.any(String))
+                    expect(article).toHaveProperty('article_id', expect.any(Number))
+                    expect(article).toHaveProperty('topic', expect.any(String))
+                    expect(article).toHaveProperty('created_at', expect.any(String))
+                    expect(article).toHaveProperty('votes', expect.any(Number))
+                    expect(article).toHaveProperty('article_img_url', expect.any(String))
+                    expect(article).toHaveProperty('comment_count', expect.any(Number))
+                    expect(article).not.toHaveProperty('body')
+                })
+            })
+        });
+        
+        test('200 - articles should be sorted by date descending', () => {
+            
+            return request(app)
+            .get('/api/articles')
+            .expect(200)
+            .then(({body}) => {
+                expect(body).toBeSortedBy('created_at', {
+                    descending: true
+                })
+            })
+        });
+
+        test('404 - receive a 404 when url entered is misspelt', () => {
+            
+            return request(app)
+            .get('/api/articleses')
+            .expect(404)
+            
+            }) 
+        });
+
+    });
+
+

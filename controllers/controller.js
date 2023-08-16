@@ -1,21 +1,31 @@
-const {selectTopics, selectArticles} = require('../models/model')
+const {selectTopics, selectArticle, selectAllArticles} = require('../models/model')
 const endpoints = require('../endpoints.json')
 
-exports.getTopics = (request, response) => {
+exports.getTopics = (request, response, next) => {
     selectTopics().then((topics) => {
         response.status(200).send(topics)
     })
+    .catch(next)
 }
 
-exports.getArticles = (request, response, next) => {
-    const {article_id} = request.params 
-    selectArticles(article_id)
-    .then((articles) => {
-        response.status(200).send({article: articles})
+exports.getArticle = (request, response, next) => {
+    const {article_id} = request.params
+    selectArticle(article_id)
+    .then((article) => {
+        response.status(200).send({article})
     })
     .catch(next);
 }
 
+exports.getAllArticles = (request, response, next) => {
+    selectAllArticles()
+    .then((articles) => {
+        response.status(200).send(articles)
+    })
+    .catch(next)
+}
+
 exports.getServerDocs = (request, response) => {
     response.status(200).send(endpoints)
+    .catch(next)
 }
