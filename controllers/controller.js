@@ -1,4 +1,4 @@
-const {selectTopics, selectArticle, selectAllArticles} = require('../models/model')
+const {selectTopics, selectArticle, selectAllArticles, insertComment} = require('../models/model')
 const endpoints = require('../endpoints.json')
 
 exports.getTopics = (request, response, next) => {
@@ -28,4 +28,12 @@ exports.getAllArticles = (request, response, next) => {
 exports.getServerDocs = (request, response) => {
     response.status(200).send(endpoints)
     .catch(next)
+}
+
+
+exports.addComment = (request, response, next) => {
+    insertComment(request.body)
+    .then((comment) => {
+        response.status(201).send({comment})
+    })
 }

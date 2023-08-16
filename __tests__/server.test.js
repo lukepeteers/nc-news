@@ -134,6 +134,14 @@ describe('GET', () => {
             }) 
         });
 
+        
+
+    });
+
+    describe('POST', () => {
+        test('/api/articles/:article_id/comments', () => {
+            
+        });
     });
 
 
