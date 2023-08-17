@@ -234,6 +234,18 @@ describe('GET', () => {
 
                 })
             });
+            test('201 - should ignore unnecessary properties', () => {
+                
+                return request(app)
+                .post('/api/articles/2/comments')
+                .send({username: 'butter_bridge', body: 'am body n soul', legs: 2000, fingers: '9', favouriteFood: 'dirt'})
+                .expect(201)
+                .then(({body}) => {
+                    expect(body).not.toHaveProperty('legs')
+                    expect(body).not.toHaveProperty('fingers')
+                    expect(body).not.toHaveProperty('favouriteFood')
+                })
+            });
             test('400 - responds with an error message when body is malformed / is missing required fields', () => {
                 
                 return request(app)
