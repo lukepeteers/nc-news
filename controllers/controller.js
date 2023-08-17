@@ -1,5 +1,6 @@
 const {selectTopics, selectArticle, selectAllArticles, selectCommentsByArticleId} = require('../models/model')
 const endpoints = require('../endpoints.json')
+const { checkArticleExists } = require('../db/seeds/utils')
 
 exports.getTopics = (request, response, next) => {
     selectTopics().then((topics) => {
@@ -31,9 +32,13 @@ exports.getServerDocs = (request, response, next) => {
 
 exports.getCommentsByArticleId = (request, response ,next) => {
     const {article_id} = request.params
-    selectCommentsByArticleId(article_id)
+    checkArticleExists(article_id)
+    .then(() => {
+        return selectCommentsByArticleId(article_id, next)
+    })
     .then((comments) => {
         response.status(200).send(comments)
     })
     .catch(next)
+    
 }

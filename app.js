@@ -24,6 +24,4 @@ app.use((err, req, res, next) => {
     res.status(500).send({msg: 'Internal Server Error'})
 })
 
-app.get('/api/topics', getTopics)
-
 module.exports = app

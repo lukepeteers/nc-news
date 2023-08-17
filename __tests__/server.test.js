@@ -158,14 +158,21 @@ describe('GET', () => {
                     })
                 })
             });
+            test('200 - returns an empty array ', () => {
+               return request(app)
+               .get('/api/articles/4/comments')
+               .expect(200)
+               .then(({body}) => {
+                expect(body).toEqual([])
+               })
+            }); 
             test('404 - responds with error when targeting a ID that does not exist', () => {
                 return request(app)
                 .get('/api/articles/999999/comments')
                 .expect(404)
                 .then(({body}) => {
                     const {msg} = body
-                    expect(msg).toBe('Not Found')
-
+                    expect(msg).toBe('No article exists with that ID')
                 })
             });
             test('400 - responds with error when given invalid input for ID', () => {
