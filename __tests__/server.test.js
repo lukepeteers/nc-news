@@ -16,9 +16,16 @@ afterAll(() => connection.end());
 describe('GET', () => {
     test('404 - response with error message when given a url that doesnt exist on server', () => {
         return request(app)
-        .get('/pokeomon-news')
+        .get('/api/nonsense')
         .expect(404)
     });
+    test('404 - receive a 404 when url entered is misspelt', () => {
+            
+        return request(app)
+        .get('/api/articleses')
+        .expect(404)
+        
+        }) 
     describe('/api/topics', () => {
         test('200 - responds with an array of objects with "slug" and "description" properties', () => {
             return request(app)
@@ -124,16 +131,60 @@ describe('GET', () => {
                 })
             })
         });
-
-        test('404 - receive a 404 when url entered is misspelt', () => {
-            
-            return request(app)
-            .get('/api/articleses')
-            .expect(404)
-            
-            }) 
         });
-
+        describe('/api/articles/:article_id/comments', () => {
+            test('200 - responds with an array of comment object(s) with the correct properties', () => {
+                return request(app)
+                .get('/api/articles/1/comments')
+                .expect(200)
+                .then(({body}) => {
+                    body.forEach((comment) => {
+                        expect(comment).toHaveProperty('comment_id', expect.any(Number))
+                        expect(comment).toHaveProperty('votes', expect.any(Number))
+                        expect(comment).toHaveProperty('created_at', expect.any(String))
+                        expect(comment).toHaveProperty('author', expect.any(String))
+                        expect(comment).toHaveProperty('body', expect.any(String))
+                        expect(comment).toHaveProperty('article_id', expect.any(Number))
+                    })
+                })
+            });
+            test('200 - comments should be sorted by most recent first', () => {
+                return request(app)
+                .get('/api/articles/1/comments')
+                .expect(200)
+                .then(({body}) => {
+                    expect(body).toBeSortedBy('created_at', {
+                        descending: true
+                    })
+                })
+            });
+            test('200 - returns an empty array ', () => {
+               return request(app)
+               .get('/api/articles/4/comments')
+               .expect(200)
+               .then(({body}) => {
+                expect(body).toEqual([])
+               })
+            }); 
+            test('404 - responds with error when targeting a ID that does not exist', () => {
+                return request(app)
+                .get('/api/articles/999999/comments')
+                .expect(404)
+                .then(({body}) => {
+                    const {msg} = body
+                    expect(msg).toBe('No article exists with that ID')
+                })
+            });
+            test('400 - responds with error when given invalid input for ID', () => {
+                return request(app)
+                .get('/api/articles/nonesense/comments')
+                .expect(400)
+                .then(({body}) => {
+                    const {msg} = body
+                    expect(msg).toBe('Invalid Input')
+                })
+            });
+        });
     });
 
 
