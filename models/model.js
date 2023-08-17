@@ -34,3 +34,7 @@ exports.selectAllArticles = () => {
         return rows
     })
 }
+
+exports.insertComment = (body) => {
+    
+}
