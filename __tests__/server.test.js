@@ -131,60 +131,6 @@ describe('GET', () => {
             })
         });
         });
-
-
-        
-
-    });
-
-    describe('POST', () => {
-        describe('/api/articles/:article_id/comments', () => {
-            test('201 - receive the posted comment', () => {
-                
-                return request(app)
-                .post('/api/articles/2/comments')
-                .send({username: 'butter_bridge', body: 'am body n soul'})
-                .expect(201)
-                .then(({body}) => {
-                    const comment = body.comment[0]
-                    console.log(comment)
-                    expect(comment).toHaveProperty('comment_id', expect.any(Number))
-                    expect(comment).toHaveProperty('body', expect.any(String))
-                    expect(comment).toHaveProperty('article_id', expect.any(Number))
-                    expect(comment).toHaveProperty('author', expect.any(String))
-                    expect(comment).toHaveProperty('votes', expect.any(Number))
-                    expect(comment).toHaveProperty('created_at', expect.any(String))
-
-                })
-            });
-            test('400 - responds with an error message when body is malformed / is missing required fields', () => {
-                
-                return request(app)
-                .post('/api/articles/2/comments')
-                .send({})
-                .expect(400)
-                .then(({body}) => {
-                    const {msg} = body
-                    expect(msg).toBe('Bad Request')
-                })
-            });
-            test('400 - responds with an error message when schema validaton has failed', () => {
-                
-                return request(app)
-                .post('/api/articles/2/comments')
-                .send({nothingness: 'nothing here'})
-                .expect(400)
-                .then(({body}) => {
-                    const {msg} = body
-                    expect(msg).toBe('Bad Request')
-                })
-            });
-            test('400 - returns an error message when a none numerical character is entered as ID', () => {
-                
-                return request(app)
-                .post('/api/articles/nonesense/comments')
-                .send({username: 'butter_bridge', body: 'am body n soul'})
-
         describe('/api/articles/:article_id/comments', () => {
             test('200 - responds with an array of comment object(s) with the correct properties', () => {
                 return request(app)
@@ -262,6 +208,61 @@ describe('GET', () => {
             });
 
         });
+
+        
+        
+
     });
 
+    describe('POST', () => {
+        describe('/api/articles/:article_id/comments', () => {
+            test('201 - receive the posted comment', () => {
+                
+                return request(app)
+                .post('/api/articles/2/comments')
+                .send({username: 'butter_bridge', body: 'am body n soul'})
+                .expect(201)
+                .then(({body}) => {
+                    const comment = body.comment[0]
+                    console.log(comment)
+                    expect(comment).toHaveProperty('comment_id', expect.any(Number))
+                    expect(comment).toHaveProperty('body', expect.any(String))
+                    expect(comment).toHaveProperty('article_id', expect.any(Number))
+                    expect(comment).toHaveProperty('author', expect.any(String))
+                    expect(comment).toHaveProperty('votes', expect.any(Number))
+                    expect(comment).toHaveProperty('created_at', expect.any(String))
 
+                })
+            });
+            test('400 - responds with an error message when body is malformed / is missing required fields', () => {
+                
+                return request(app)
+                .post('/api/articles/2/comments')
+                .send({})
+                .expect(400)
+                .then(({body}) => {
+                    const {msg} = body
+                    expect(msg).toBe('Bad Request')
+                })
+            });
+            test('400 - responds with an error message when schema validaton has failed', () => {
+                
+                return request(app)
+                .post('/api/articles/2/comments')
+                .send({nothingness: 'nothing here'})
+                .expect(400)
+                .then(({body}) => {
+                    const {msg} = body
+                    expect(msg).toBe('Bad Request')
+                })
+            });
+            test('400 - returns an error message when a none numerical character is entered as ID', () => {
+                
+                return request(app)
+                .post('/api/articles/nonesense/comments')
+                .send({username: 'butter_bridge', body: 'am body n soul'})
+
+        
+    });
+
+        })})

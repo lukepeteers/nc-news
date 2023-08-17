@@ -1,5 +1,4 @@
 const connection = require('../db/connection')
-const {checkArticleExists} = require('../db/seeds/utils')
 
 
 exports.selectTopics = () => {
@@ -36,7 +35,6 @@ exports.selectAllArticles = () => {
 }
 
 exports.selectCommentsByArticleId = (article_id, next) => {
-    // checkArticleExists
     return connection
     .query(`SELECT *
     FROM comments
@@ -46,7 +44,6 @@ exports.selectCommentsByArticleId = (article_id, next) => {
         const {rows} = body
         return rows
     })
-    .catch(next)
 }
 
 exports.insertComment = (reqBody, reqParams) => {

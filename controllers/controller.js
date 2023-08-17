@@ -1,5 +1,5 @@
 
-const {selectTopics, selectArticle, selectAllArticles, selectCommentsByArticleId} = require('../models/model')
+const {selectTopics, selectArticle, selectAllArticles, selectCommentsByArticleId, insertComment} = require('../models/model')
 
 const endpoints = require('../endpoints.json')
 const { checkArticleExists } = require('../db/seeds/utils')
