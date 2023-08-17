@@ -1,4 +1,6 @@
+
 const {selectTopics, selectArticle, selectAllArticles, selectCommentsByArticleId} = require('../models/model')
+
 const endpoints = require('../endpoints.json')
 const { checkArticleExists } = require('../db/seeds/utils')
 
@@ -40,5 +42,15 @@ exports.getCommentsByArticleId = (request, response ,next) => {
         response.status(200).send(comments)
     })
     .catch(next)
-    
+
+}
+
+
+exports.addComment = (request, response, next) => {
+    insertComment(request.body, request.params)
+    .then((comment) => {
+        response.status(201).send({comment})
+    })
+    .catch(next)
+
 }
