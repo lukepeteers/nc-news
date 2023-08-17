@@ -25,15 +25,16 @@ exports.getAllArticles = (request, response, next) => {
     .catch(next)
 }
 
-exports.getServerDocs = (request, response) => {
+exports.getServerDocs = (request, response, next) => {
     response.status(200).send(endpoints)
     .catch(next)
 }
 
 
 exports.addComment = (request, response, next) => {
-    insertComment(request.body)
+    insertComment(request.body, request.params)
     .then((comment) => {
         response.status(201).send({comment})
     })
+    .catch(next)
 }
