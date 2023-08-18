@@ -62,7 +62,7 @@ exports.getArticleToPatch = (request, response, next) => {
         return patchArticle(request.body, request.params)
     })
     .then((article) => {
-        response.status(200).send(article)
+        response.status(200).send({article})
     })
     .catch(next)
 }

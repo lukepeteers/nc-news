@@ -68,6 +68,6 @@ exports.patchArticle = (body, params) => {
     RETURNING *
     `, [inc_votes, article_id])
     .then(({rows}) => {
-        return rows
+        return rows[0]
     })
 }
