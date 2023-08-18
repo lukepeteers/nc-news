@@ -1,5 +1,5 @@
 
-const {selectTopics, selectArticle, selectAllArticles, selectCommentsByArticleId, insertComment} = require('../models/model')
+const {selectTopics, selectArticle, selectAllArticles, selectCommentsByArticleId, insertComment, patchArticle} = require('../models/model')
 
 const endpoints = require('../endpoints.json')
 const { checkArticleExists } = require('../db/seeds/utils')
@@ -54,3 +54,16 @@ exports.addComment = (request, response, next) => {
     .catch(next)
 
 }
+
+exports.getArticleToPatch = (request, response, next) => {
+    const {article_id} = request.params
+    checkArticleExists(article_id)
+    .then(() => {
+        return patchArticle(request.body, request.params)
+    })
+    .then((article) => {
+        response.status(200).send(article)
+    })
+    .catch(next)
+}
+

@@ -223,8 +223,8 @@ describe('GET', () => {
                 .send({username: 'butter_bridge', body: 'am body n soul'})
                 .expect(201)
                 .then(({body}) => {
+                    
                     const comment = body.comment[0]
-                    console.log(comment)
                     expect(comment).toHaveProperty('comment_id', expect.any(Number))
                     expect(comment).toHaveProperty('body', expect.any(String))
                     expect(comment).toHaveProperty('article_id', expect.any(Number))
@@ -273,8 +273,68 @@ describe('GET', () => {
                 return request(app)
                 .post('/api/articles/nonesense/comments')
                 .send({username: 'butter_bridge', body: 'am body n soul'})
+                .expect(400)
+                .then(({body}) => {
+                    const {msg} = body
+                    expect(msg).toBe('Invalid Input')
+                })
 
         
     });
 
         })})
+        describe('PATCH', () => {
+            describe('/api/articles/:article_id', () => {
+                test('200 - responds with newly updated article', () => {
+                    const newVotes = 5
+
+                    return request(app)
+                    .patch('/api/articles/4')
+                    .send({inc_votes: newVotes})
+                    .expect(200)
+                    .then(({body}) => {
+                        expect(body[0]).toHaveProperty('author', expect.any(String))
+                        expect(body[0]).toHaveProperty('title', expect.any(String))
+                        expect(body[0]).toHaveProperty('article_id', expect.any(Number))
+                        expect(body[0]).toHaveProperty('topic', expect.any(String))
+                        expect(body[0]).toHaveProperty('created_at', expect.any(String))
+                        expect(body[0]).toHaveProperty('votes', expect.any(Number))
+                        expect(body[0]).toHaveProperty('article_img_url', expect.any(String))
+                        expect(body[0]).toHaveProperty('votes', expect.any(Number))
+                        expect(body[0].votes).toBe(5)
+                    })
+                });
+                test('400 - returns error when body is malformed / missing  required fields', () => {
+                    
+                    return request(app)
+                    .patch('/api/articles/2')
+                    .send({})
+                    .expect(400)
+                    .then(({body}) => {
+                        const {msg} = body
+                        expect(msg).toBe('Bad Request')
+                     })
+                });
+                test('400 - returns error when when incorrect type is passed for patch', () => {
+                    
+                    return request(app)
+                    .patch('/api/articles/3')
+                    .send({inc_votes: '5 votes'})
+                    .expect(400)
+                    .then(({body}) => {
+                        const {msg} = body
+                        expect(msg).toBe('Invalid Input')
+                    })
+                });
+                test('404 - responds with error when targeting an id that does not exist', () => {
+                        return request(app)
+                        .patch('/api/articles/999999')
+                        .send({inv_votes: 5})
+                        .expect(404)
+                        .then(({body}) =>  {
+                            const {msg} = body
+                            expect(msg).toBe('No article exists with that ID')
+                        })
+                });
+            });
+        });
