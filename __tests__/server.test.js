@@ -209,6 +209,21 @@ describe('GET', () => {
 
         });
 
+        describe.only('/api/users', () => {
+            test('200 - receive an array of user objects', () => {
+                
+                return request(app)
+                .get('/api/users')
+                .expect(200)
+                .then(({body}) => {
+                    body.forEach((user) => {
+                        expect(user).toHaveProperty('username')
+                        expect(user).toHaveProperty('name')
+                        expect(user).toHaveProperty('avatar_url')
+                    })
+                })
+            });
+        });
         
         
 
@@ -356,7 +371,7 @@ describe('GET', () => {
         });
 
 describe('DELETE', () => {
-    describe.only('/api/comments/:comment_id', () => {
+    describe('/api/comments/:comment_id', () => {
         test('204 - responds with no content', () => {
             
             return request(app)
