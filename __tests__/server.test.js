@@ -354,3 +354,40 @@ describe('GET', () => {
                 });
             });
         });
+
+describe('DELETE', () => {
+    describe.only('/api/comments/:comment_id', () => {
+        test('204 - responds with no content', () => {
+            
+            return request(app)
+            .delete('/api/comments/4')
+            .expect(204)
+            .then(({body}) => {
+                expect(body).toEqual({})
+            })
+        });
+        test('404 - responds with an error when targeting an id that does not exist', () => {
+        
+            return request(app)
+            .delete('/api/comments/9999999999')
+            .expect(404)
+            .then(({body}) => {
+                const {msg} = body
+                expect(msg).toBe('Not Found')
+            })
+        });
+        test('400 - responds with an error when ID is incorect type', () => {
+            
+            return request(app)
+            .delete('/api/comments/nonesense')
+            .expect(400)
+            .then(({body}) => {
+                const {msg} = body
+                expect(msg).toBe('Invalid Input')
+            })
+        });
+    });
+    });
+       
+
+   
