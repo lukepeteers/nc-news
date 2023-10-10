@@ -2,7 +2,7 @@ const express = require('express');
 const app = express();
 const cors = require('cors');
 
-const {getTopics, getServerDocs, getArticle, getAllArticles, getCommentsByArticleId, addComment, getArticleToPatch} = require('./controllers/controller')
+const {getTopics, getServerDocs, getArticle, getAllArticles, getCommentsByArticleId, addComment, getArticleToPatch, getCommentToDelete} = require('./controllers/controller')
 
 app.use(cors())
 app.use(express.json())
@@ -12,11 +12,14 @@ app.get('/api/articles/:article_id', getArticle)
 app.get('/api/articles', getAllArticles)
 app.get('/api/articles/:article_id/comments', getCommentsByArticleId)
 
+app.delete('/api/comments/:comment_id', getCommentToDelete)
+
 app.post('/api/articles/:article_id/comments', addComment)
 
 app.patch('/api/articles/:article_id', getArticleToPatch)
 
 app.use((err, req, res, next) => {
+    console.log(err.code)
     if(err.status && err.msg) {
         res.status(err.status).send({msg: err.msg})
     } else next(err)
@@ -35,7 +38,7 @@ app.use((err, req, res, next) => {
 })
 
 app.use((err, req, res, next) => {
-    if(err.code === '23503') {
+    if(err.code === '23503' || err.code === '22003') {
         res.status(404).send({msg: 'Not Found'})
     } else next(err)
 })

@@ -71,3 +71,13 @@ exports.patchArticle = (body, params) => {
         return rows[0]
     })
 }
+
+exports.selectCommentToDelete = (comment_id) => {
+
+    return connection
+    .query(`DELETE FROM comments WHERE comment_id = $1`, [comment_id])
+    .then(() => {
+        console.log('yes')
+    })
+    
+}
