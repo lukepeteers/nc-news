@@ -34,6 +34,20 @@ exports.selectAllArticles = () => {
     })
 }
 
+exports.selectArticlesByTopic = (query) => {
+    return connection
+    .query(`SELECT articles.article_id, articles.title, articles.topic, articles.author, articles.created_at, articles.votes, articles.article_img_url, COUNT(comments.comment_id)::INT AS comment_count
+    FROM articles
+    LEFT JOIN comments ON articles.article_id = comments.article_id
+    WHERE articles.topic = $1
+    GROUP BY articles.article_id
+    ORDER BY articles.created_at DESC;`, [query.topic])
+    .then(({rows}) => {
+        return rows
+    })
+
+}
+
 exports.selectCommentsByArticleId = (article_id, next) => {
     return connection
     .query(`SELECT *
@@ -77,7 +91,6 @@ exports.selectCommentToDelete = (comment_id) => {
     return connection
     .query(`DELETE FROM comments WHERE comment_id = $1`, [comment_id])
     .then(() => {
-        console.log('yes')
     })
     
 }
@@ -87,7 +100,6 @@ exports.selectUsers = () => {
     return connection
     .query(`SELECT * FROM users`)
     .then(({rows}) => {
-        console.log(rows)
         return rows
     })
 }

@@ -130,6 +130,36 @@ describe('GET', () => {
                 })
             })
         });
+
+        test('200 - an array of articles filtered by topic', () => {
+            
+            return request(app)
+            .get('/api/articles?topic=cats')
+            .expect(200)
+            .then(({body}) => {
+                body.forEach((article) => {
+                    expect(article).toHaveProperty('topic', 'cats')
+                    expect(article).toHaveProperty('author', expect.any(String))
+                    expect(article).toHaveProperty('title', expect.any(String))
+                    expect(article).toHaveProperty('article_id', expect.any(Number))
+                    expect(article).toHaveProperty('created_at', expect.any(String))
+                    expect(article).toHaveProperty('votes', expect.any(Number))
+                    expect(article).toHaveProperty('article_img_url', expect.any(String))
+                    expect(article).toHaveProperty('comment_count', expect.any(Number))
+                    expect(article).not.toHaveProperty('body')
+                    
+                })
+            })
+        });
+        test('200 - responds with empty array when no results are found for valid topic', () => {
+            
+            return request(app)
+            .get('/api/articles?topic=paper')
+            .expect(200)
+            .then(({body}) => {
+                expect(body).toEqual([])
+            })
+        });
         });
         describe('/api/articles/:article_id/comments', () => {
             test('200 - responds with an array of comment object(s) with the correct properties', () => {
@@ -209,7 +239,7 @@ describe('GET', () => {
 
         });
 
-        describe.only('/api/users', () => {
+        describe('/api/users', () => {
             test('200 - receive an array of user objects', () => {
                 
                 return request(app)
@@ -224,6 +254,8 @@ describe('GET', () => {
                 })
             });
         });
+
+        
         
         
 

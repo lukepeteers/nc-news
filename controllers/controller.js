@@ -1,5 +1,5 @@
 
-const {selectTopics, selectArticle, selectAllArticles, selectCommentsByArticleId, insertComment, patchArticle, selectCommentToDelete,selectUsers} = require('../models/model')
+const {selectTopics, selectArticle, selectAllArticles, selectCommentsByArticleId, insertComment, patchArticle, selectCommentToDelete,selectUsers, selectArticlesByTopic} = require('../models/model')
 
 const endpoints = require('../endpoints.json')
 const { checkArticleExists } = require('../db/seeds/utils')
@@ -21,11 +21,20 @@ exports.getArticle = (request, response, next) => {
 }
 
 exports.getAllArticles = (request, response, next) => {
-    selectAllArticles()
-    .then((articles) => {
-        response.status(200).send(articles)
-    })
-    .catch(next)
+    if(!request.query) {
+        selectAllArticles()
+        .then((articles) => {
+            response.status(200).send(articles)
+        })
+        .catch(next)
+    } else {
+        selectArticlesByTopic(request.query)
+        .then((articles) => {
+            response.status(200).send(articles)
+        })
+        .catch(next)
+    }
+    
 }
 
 exports.getServerDocs = (request, response, next) => {
@@ -66,7 +75,6 @@ exports.getArticleToPatch = (request, response, next) => {
     })
     .catch(next)
 }
-
 
 exports.getCommentToDelete = (request, response, next) => {
     const {comment_id} = request.params
