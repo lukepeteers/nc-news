@@ -39,13 +39,14 @@ describe('GET', () => {
             })
         });   
     });
-    describe('/api/articles/:article_id', () => {
+    describe.only('/api/articles/:article_id', () => {
         test('200 - responds with an object with a key of "article" and value as the desired object withcorrect properties', () => {
             
             return request(app)
             .get('/api/articles/2')
             .expect(200)
             .then(({body}) => {
+                console.log(body)
                 for(const key in body) {
                     const value = body[key]
                     expect(key).toBe('article')
@@ -57,6 +58,7 @@ describe('GET', () => {
                     expect(value).toHaveProperty('created_at', expect.any(String))
                     expect(value).toHaveProperty('votes', expect.any(Number))
                     expect(value).toHaveProperty('article_img_url', expect.any(String))
+                    expect(value).toHaveProperty('comment_count')
 
 
                 }

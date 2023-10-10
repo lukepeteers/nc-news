@@ -20,7 +20,7 @@ app.post('/api/articles/:article_id/comments', addComment)
 app.patch('/api/articles/:article_id', getArticleToPatch)
 
 app.use((err, req, res, next) => {
-    // console.log(err.code)
+    console.log(err.code)
     if(err.status && err.msg) {
         res.status(err.status).send({msg: err.msg})
     } else next(err)

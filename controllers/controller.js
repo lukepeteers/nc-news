@@ -15,6 +15,7 @@ exports.getArticle = (request, response, next) => {
     const {article_id} = request.params
     selectArticle(article_id)
     .then((article) => {
+        console.log('yeh in conto')
         response.status(200).send({article})
     })
     .catch(next);
