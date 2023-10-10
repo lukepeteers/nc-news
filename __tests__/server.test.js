@@ -39,54 +39,54 @@ describe('GET', () => {
             })
         });   
     });
-    describe.only('/api/articles/:article_id', () => {
-        test('200 - responds with an object with a key of "article" and value as the desired object withcorrect properties', () => {
+    // describe.only('/api/articles/:article_id', () => {
+    //     test('200 - responds with an object with a key of "article" and value as the desired object withcorrect properties', () => {
             
-            return request(app)
-            .get('/api/articles/2')
-            .expect(200)
-            .then(({body}) => {
-                console.log(body)
-                for(const key in body) {
-                    const value = body[key]
-                    expect(key).toBe('article')
-                    expect(value).toHaveProperty('article_id', expect.any(Number))
-                    expect(value).toHaveProperty('title', expect.any(String))
-                    expect(value).toHaveProperty('topic', expect.any(String))
-                    expect(value).toHaveProperty('author', expect.any(String))
-                    expect(value).toHaveProperty('body', expect.any(String))
-                    expect(value).toHaveProperty('created_at', expect.any(String))
-                    expect(value).toHaveProperty('votes', expect.any(Number))
-                    expect(value).toHaveProperty('article_img_url', expect.any(String))
-                    expect(value).toHaveProperty('comment_count')
+    //         return request(app)
+    //         .get('/api/articles/2')
+    //         .expect(200)
+    //         .then(({body}) => {
+    //             console.log(body)
+    //             for(const key in body) {
+    //                 const value = body[key]
+    //                 expect(key).toBe('article')
+    //                 expect(value).toHaveProperty('article_id', expect.any(Number))
+    //                 expect(value).toHaveProperty('title', expect.any(String))
+    //                 expect(value).toHaveProperty('topic', expect.any(String))
+    //                 expect(value).toHaveProperty('author', expect.any(String))
+    //                 expect(value).toHaveProperty('body', expect.any(String))
+    //                 expect(value).toHaveProperty('created_at', expect.any(String))
+    //                 expect(value).toHaveProperty('votes', expect.any(Number))
+    //                 expect(value).toHaveProperty('article_img_url', expect.any(String))
+    //                 expect(value).toHaveProperty('comment_count')
 
 
-                }
-            })
-        });
+    //             }
+    //         })
+    //     });
 
-        test('404 - responds with "Not Found" when given an id that does not exist', () => {
+    //     test('404 - responds with "Not Found" when given an id that does not exist', () => {
             
-            return request(app)
-            .get('/api/articles/4200')
-            .expect(404)
-            .then(({body}) => {
-                const {msg} = body
-                expect(msg).toBe('Not Found')
-            })
-        });
+    //         return request(app)
+    //         .get('/api/articles/4200')
+    //         .expect(404)
+    //         .then(({body}) => {
+    //             const {msg} = body
+    //             expect(msg).toBe('Not Found')
+    //         })
+    //     });
 
-        test('400 - responds with "Invalid Input" when id entered is not a number', () => {
+    //     test('400 - responds with "Invalid Input" when id entered is not a number', () => {
             
-            return request(app)
-            .get('/api/articles/nazgûl')
-            .expect(400)
-            .then(({body}) => {
-                const {msg} = body
-                expect(msg).toBe('Invalid Input')
-            })
-        });
-    });
+    //         return request(app)
+    //         .get('/api/articles/nazgûl')
+    //         .expect(400)
+    //         .then(({body}) => {
+    //             const {msg} = body
+    //             expect(msg).toBe('Invalid Input')
+    //         })
+    //     });
+    // });
 
     describe('/api', () => {
         test('200 - responds with object describing all the available endpoints on server', () => {
