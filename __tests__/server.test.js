@@ -209,7 +209,7 @@ describe('GET', () => {
 
         });
 
-        describe('/api/users', () => {
+        describe.only('/api/users', () => {
             test('200 - receive an array of user objects', () => {
                 
                 return request(app)

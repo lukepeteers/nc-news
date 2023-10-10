@@ -81,3 +81,13 @@ exports.selectCommentToDelete = (comment_id) => {
     })
     
 }
+
+exports.selectUsers = () => {
+
+    return connection
+    .query(`SELECT * FROM users`)
+    .then(({rows}) => {
+        console.log(rows)
+        return rows
+    })
+}

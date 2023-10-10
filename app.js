@@ -2,7 +2,7 @@ const express = require('express');
 const app = express();
 const cors = require('cors');
 
-const {getTopics, getServerDocs, getArticle, getAllArticles, getCommentsByArticleId, addComment, getArticleToPatch, getCommentToDelete} = require('./controllers/controller')
+const {getTopics, getServerDocs, getArticle, getAllArticles, getCommentsByArticleId, addComment, getArticleToPatch, getCommentToDelete, getUsers} = require('./controllers/controller')
 
 app.use(cors())
 app.use(express.json())
@@ -11,6 +11,7 @@ app.get('/api', getServerDocs)
 app.get('/api/articles/:article_id', getArticle)
 app.get('/api/articles', getAllArticles)
 app.get('/api/articles/:article_id/comments', getCommentsByArticleId)
+app.get('/api/users', getUsers)
 
 app.delete('/api/comments/:comment_id', getCommentToDelete)
 
@@ -19,7 +20,7 @@ app.post('/api/articles/:article_id/comments', addComment)
 app.patch('/api/articles/:article_id', getArticleToPatch)
 
 app.use((err, req, res, next) => {
-    console.log(err.code)
+    // console.log(err.code)
     if(err.status && err.msg) {
         res.status(err.status).send({msg: err.msg})
     } else next(err)
