@@ -39,7 +39,7 @@ describe('GET', () => {
             })
         });   
     });
-    describe.only('/api/articles/:article_id', () => {
+    describe('/api/articles/:article_id', () => {
         test('200 - responds with an object with a key of "article" and value as the desired object withcorrect properties', () => {
             
             return request(app)
@@ -99,7 +99,7 @@ describe('GET', () => {
         });
     });
 
-    describe('/api/articles', () => {
+    describe.only('/api/articles', () => {
         test('200 - an articles array of article objects with the correct properties', () => {
             
             return request(app)
@@ -120,7 +120,7 @@ describe('GET', () => {
             })
         });
         
-        test('200 - articles should be sorted by date descending', () => {
+        test('200 - articles should be sorted by date descending by default', () => {
             
             return request(app)
             .get('/api/articles')
@@ -159,6 +159,55 @@ describe('GET', () => {
             .expect(200)
             .then(({body}) => {
                 expect(body).toEqual([])
+            })
+        });
+
+        test('200 - responds with articles sorted by created_at in ASC order', () => {
+            
+            return request(app)
+            .get('/api/articles?sort_by=created_at&order=ASC')
+            .expect(200)
+            .then(({body}) => {
+                expect(body).toBeSortedBy('created_at', {
+                    descending: false
+                })
+            })
+        });
+
+        test('200 - responds with articles filtered by topic sorted by comment_count in ASC order', () => {
+            
+            return request(app)
+            .get('/api/articles?topic=cats&sort_by=comment_count&order=ASC')
+            .expect(200)
+            .then(({body}) => {
+                expect(body).toBeSortedBy('comment_count', {
+                    ascending: true
+                })
+                body.forEach((article) => {
+                    expect(article).toHaveProperty('topic', 'cats')
+                })
+            })
+        });
+
+        test('400 - responds with error when passed and invalid sort_by query', () => {
+            
+            return request(app)
+            .get('/api/articles?sort_by=number_of_vowels')
+            .expect(400)
+            .then(({body}) => {
+                const {msg} = body
+                expect(msg).toBe('Invalid sort query')
+            })
+        });
+
+        test('400 - responds with error when passed an invalid order query', () => {
+            
+            return request(app)
+            .get('/api/articles?order=UPWARDS')
+            .expect(400)
+            .then(({body}) => {
+                const {msg} = body
+                expect(msg).toBe('Invalid order query')
             })
         });
         });

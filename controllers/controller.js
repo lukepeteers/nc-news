@@ -21,8 +21,8 @@ exports.getArticle = (request, response, next) => {
 }
 
 exports.getAllArticles = (request, response, next) => {
-    if(!request.query) {
-        selectAllArticles()
+    if(!request.query.topic) {
+        selectAllArticles(request.query)
         .then((articles) => {
             response.status(200).send(articles)
         })
