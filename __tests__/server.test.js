@@ -78,7 +78,7 @@ describe('GET', () => {
         test('400 - responds with "Invalid Input" when id entered is not a number', () => {
             
             return request(app)
-            .get('/api/articles/nazgûl')
+            .get('/api/articles/nonesense')
             .expect(400)
             .then(({body}) => {
                 const {msg} = body
