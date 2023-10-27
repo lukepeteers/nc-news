@@ -99,7 +99,7 @@ describe('GET', () => {
         });
     });
 
-    describe.only('/api/articles', () => {
+    describe('/api/articles', () => {
         test('200 - an articles array of article objects with the correct properties', () => {
             
             return request(app)
