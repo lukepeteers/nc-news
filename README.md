@@ -1,7 +1,5 @@
 # Northcoders News API
 
-In order to successfully connect to the two databases locally you will need to create .env.test, with PGDATABASE=nc_news_test inside, and .env.development, with  PGDATABASE=nc_news inside.  
-
 NC News is a project I worked on during the Northcoders Bootcamp. This is the first build I had done of this size and was created over the span of 5 days. For the Frontend I used React to **Build** and Netlify to **Host**, and for the Backend API I used Express and PostgreSQL to **Build** and ElephantSQL and Render to **Host**.
 
 Click this link to view NC News
